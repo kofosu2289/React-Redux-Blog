@@ -48,7 +48,7 @@ class Header extends Component {
           <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleContainer" aria-controls="navbarsExampleContainer" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon" />
           </button>
-          <Link className="navbar-brand" to="/">Haichao's Blog System</Link>
+          <Link className="navbar-brand" to="/">Kenneth's Blog System</Link>
 
           <div className="collapse navbar-collapse" id="navbarsExampleContainer">
             <ul className="navbar-nav mr-auto">
@@ -56,13 +56,13 @@ class Header extends Component {
                 <Link className="nav-link" to="/posts">Posts</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="https://github.com/haichao-yu/auth">GitHub</a>
+                <a className="nav-link" href="https://github.com/kofosu2289/React-Redux-Blog.git">GitHub</a>
               </li>
             </ul>
-            <form className="form-inline my-2 my-md-0">
+            {/* <form className="form-inline my-2 my-md-0">
               <input className="form-control mr-sm-2" type="text" placeholder="Search Post" />
               <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
+            </form> */}
             <div className="ml-auto">
               {this.renderLinks()}
             </div>

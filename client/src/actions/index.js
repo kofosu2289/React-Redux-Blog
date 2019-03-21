@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {reset} from 'redux-form';
 import {
   AUTH_USER,
   UNAUTH_USER,
@@ -16,33 +17,36 @@ const ROOT_URL = '/api';
  */
 
 export function signinUser({ email, password }, historyPush, historyReplace) {
-
-  // Using redux-thunk (instead of returning an object, return a function)
-  // All redux-thunk doing is giving us arbitrary access to the dispatch function, and allow us to dispatch our own actions at any time we want
+  
+  //Using redux-thunk (instead of returning an object, return a function)
+  //All redux-thunk is doing is giving us arbitrary access to the dispatch function, and allow us to dispatch our own actions at any time we want
   return function(dispatch) {
 
-    // Submit email/password to the server
-    axios.post(`${ROOT_URL}/signin`, { email, password })  // axios returns a promise
-      .then(response => {  // If request is good (sign in succeeded) ...
+    //Submit email/password to the server
+    axios.post(`${ROOT_URL}/signin`, {email, password}) //axios returns a promise
+      .then(response => {//if the request is good(sign in succeeded)
 
-        // - Save the JWT token (use local storage)
+        //save the JWT token to local storage
         localStorage.setItem('token', response.data.token);
 
-        // - Update state to indicate user is authenticated
+        //update state to indicate user is authenticated
         dispatch({
           type: AUTH_USER,
           payload: response.data.username,
         });
 
-        // - Redirect (PUSH) to the route '/feature'
+        //redirect to the route '/feature'
         historyPush('/feature');
       })
-      .catch(() => {  // If request is bad (sign in failed) ...
+      .catch(() => {//if the request is bad(sign in failed)
 
-        // - Redirect (REPLACE) to the route '/signin', then show an error to the user
-        historyReplace('/signin', { message: 'The email and/or password are incorrect.' });
+        //redirect to the route '/signin', then show an error to the user
+        historyReplace('/signin', {
+          time: new Date().toLocaleString(),
+          message: 'The email and/or password are incorrect.'
+        });
       });
-  }
+  } 
 }
 
 export function signupUser({ email, password, firstName, lastName }, historyPush, historyReplace) {
