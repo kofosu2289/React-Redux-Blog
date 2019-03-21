@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "and": "0.0.3",
     "axios": "^0.16.2",
+    "cd": "^0.3.3",
     "lodash": "^4.17.4",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
@@ -14,7 +16,8 @@
     "react-scripts": "1.0.13",
     "redux": "^3.7.1",
     "redux-form": "^7.0.4",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "server": "file:../server"
   },
   "scripts": {
     "start": "react-scripts start",

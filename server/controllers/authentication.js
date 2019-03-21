@@ -1,7 +1,7 @@
-const jwt = require('jwt-simple');
-const passport = require('passport');
-const User = require('../models/user');
-const config = require('../config');
+const jwt = require("jwt-simple");
+const passport = require("passport");
+const User = require("../models/user");
+const config = require("../config");
 
 // utility function: User ID + Timestamp + Secret String = JSON Web Token (JWT)
 function tokenForUser(user) {
@@ -19,7 +19,6 @@ function tokenForUser(user) {
  * @param next
  */
 exports.signup = function(req, res, next) {
-
   // console.log(req.body);
   const email = req.body.email;
   const password = req.body.password;
@@ -27,19 +26,20 @@ exports.signup = function(req, res, next) {
   const lastName = req.body.lastName;
 
   if (!email || !password) {
-    return res.status(422).send({ message: 'You must provide both email and password.' });  // 422 refers to unprocessable entity
+    return res
+      .status(422)
+      .send({ message: "You must provide both email and password." }); // 422 refers to unprocessable entity
   }
 
   // See if a user with given email exists
   User.findOne({ email: email }, function(err, existingUser) {
-
     if (err) {
       return next(err);
     }
 
     // If a user with email does exist, return an error
     if (existingUser) {
-      return res.status(422).send({ message: 'This email is in use.' });  // 422 refers to unprocessable entity
+      return res.status(422).send({ message: "This email is in use." }); // 422 refers to unprocessable entity
     }
 
     // If a user with email does NOT exist, create and save user record
@@ -47,16 +47,19 @@ exports.signup = function(req, res, next) {
       email: email,
       password: password,
       firstName: firstName,
-      lastName: lastName,
+      lastName: lastName
     });
 
-    user.save(function(err) {  // callback function
+    user.save(function(err) {
+      // callback function
       if (err) {
         return next(err);
       }
 
       // Respond user request indicating the user was created
-      res.json({ message: 'You have successfully signed up. You can sign in now.' });
+      res.json({
+        message: "You have successfully signed up. You can sign in now."
+      });
     });
   });
 };
@@ -69,14 +72,13 @@ exports.signup = function(req, res, next) {
  * @param next
  */
 exports.signin = function(req, res, next) {
-
   // Require auth
 
   // User has already had their email and password auth'd (through passport middleware [LocalStrategy])
   // We just need to give them a token
   res.send({
     token: tokenForUser(req.user),
-    username: req.user.firstName + ' ' + req.user.lastName,
+    username: req.user.firstName + " " + req.user.lastName
   });
 };
 
@@ -102,10 +104,9 @@ exports.signin = function(req, res, next) {
 */
 
 exports.verifyJwt = function(req, res, next) {
-
   // Require auth
 
   res.send({
-    username: req.user.firstName + ' ' + req.user.lastName
+    username: req.user.firstName + " " + req.user.lastName
   });
 };
