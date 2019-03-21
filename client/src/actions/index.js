@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {reset} from 'redux-form';
+import { reset } from 'redux-form';
 import {
   AUTH_USER,
   UNAUTH_USER,
@@ -8,6 +8,8 @@ import {
   FETCH_PROFILE,
   CLEAR_PROFILE,
   UPDATE_PROFILE,
+
+  FETCH_POSTS,
 } from './types';
 
 const ROOT_URL = '/api';
@@ -17,36 +19,36 @@ const ROOT_URL = '/api';
  */
 
 export function signinUser({ email, password }, historyPush, historyReplace) {
-  
-  //Using redux-thunk (instead of returning an object, return a function)
-  //All redux-thunk is doing is giving us arbitrary access to the dispatch function, and allow us to dispatch our own actions at any time we want
+
+  // Using redux-thunk (instead of returning an object, return a function)
+  // All redux-thunk doing is giving us arbitrary access to the dispatch function, and allow us to dispatch our own actions at any time we want
   return function(dispatch) {
 
-    //Submit email/password to the server
-    axios.post(`${ROOT_URL}/signin`, {email, password}) //axios returns a promise
-      .then(response => {//if the request is good(sign in succeeded)
+    // Submit email/password to the server
+    axios.post(`${ROOT_URL}/signin`, { email, password })  // axios returns a promise
+      .then(response => {  // If request is good (sign in succeeded) ...
 
-        //save the JWT token to local storage
+        // - Save the JWT token (use local storage)
         localStorage.setItem('token', response.data.token);
 
-        //update state to indicate user is authenticated
+        // - Update state to indicate user is authenticated
         dispatch({
           type: AUTH_USER,
           payload: response.data.username,
         });
 
-        //redirect to the route '/feature'
+        // - Redirect (PUSH) to the route '/feature'
         historyPush('/feature');
       })
-      .catch(() => {//if the request is bad(sign in failed)
+      .catch(() => {  // If request is bad (sign in failed) ...
 
-        //redirect to the route '/signin', then show an error to the user
+        // - Redirect (REPLACE) to the route '/signin', then show an error to the user
         historyReplace('/signin', {
           time: new Date().toLocaleString(),
           message: 'The email and/or password are incorrect.'
         });
       });
-  } 
+  }
 }
 
 export function signupUser({ email, password, firstName, lastName }, historyPush, historyReplace) {
@@ -57,12 +59,12 @@ export function signupUser({ email, password, firstName, lastName }, historyPush
       .then(response => {  // If request is good (sign up succeeded) ...
 
         // - Redirect (PUSH) to the route '/signin', then show a success message to the user
-        historyPush('/signin', { message: response.data.message });
+        historyPush('/signin', { time: new Date().toLocaleString(), message: response.data.message });
       })
       .catch(({response}) => {  // If request is bad (sign up failed) ...
 
         // - Redirect (REPLACE) to the route '/signup', then show an error to the user
-        historyReplace('/signup', { message: response.data.message });
+        historyReplace('/signup', { time: new Date().toLocaleString(), message: response.data.message });
       });
   }
 }
@@ -154,10 +156,45 @@ export function updateProfile({ firstName, lastName, birthday, sex, phone, addre
           payload: response.data.user.firstName + ' ' + response.data.user.lastName,
         });
         // history.replace
-        historyReplace('/profile', { status: 'success', message: 'You have successfully updated your profile.' });
+        historyReplace('/profile', {
+          status: 'success',
+          time: new Date().toLocaleString(),
+          message: 'You have successfully updated your profile.',
+        });
       })
       .catch(() => { // update profile failed
-        historyReplace('/profile', { status: 'fail', message: 'Update profile failed. Please try again.' });
+        historyReplace('/profile', {
+          status: 'fail',
+          time: new Date().toLocaleString(),
+          message: 'Update profile failed. Please try again.',
+        });
+      });
+  }
+}
+
+export function changePassword({ oldPassword, newPassword }, historyReplace) {
+
+  return function(dispatch) {
+    axios.put(`${ROOT_URL}/password`, {
+      oldPassword,
+      newPassword,
+    }, {
+      headers: {authorization: localStorage.getItem('token')},  // require auth
+    })
+      .then((response) => {
+        dispatch(reset('settings'));  // clear the form if success
+        historyReplace('/settings', {
+          status: 'success',
+          time: new Date().toLocaleString(),
+          message: response.data.message,
+        });
+      })
+      .catch(({response}) => {
+        historyReplace('/settings', {
+          status: 'fail',
+          time: new Date().toLocaleString(),
+          message: response.data.message,
+        });
       });
   }
 }
@@ -165,3 +202,15 @@ export function updateProfile({ firstName, lastName, birthday, sex, phone, addre
 /**
  * Blog
  */
+
+export function fetchPosts() {
+
+  return function(dispatch) {
+    axios.get(`${ROOT_URL}/posts`).then((response) => {
+      dispatch({
+        type: FETCH_POSTS,
+        payload: response.data,
+      });
+    });
+  }
+}
