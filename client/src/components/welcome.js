@@ -4,11 +4,9 @@ export default () => (
   <div>
     {/*Main jumbotron for a primary marketing message or call to action*/}
     <div className="jumbotron">
-      <h1 className="display-3">Hello, world!</h1>
+      <h1 className="display-3">Welcome!</h1>
       <p>
-        This is a template for a simple marketing or informational website. It
-        includes a large callout called a jumbotron and three supporting pieces
-        of content. Use it as a starting point to create something more unique.
+      This is a MERN stack-based fully-functioning blog system. 
       </p>
       <p>
         <a className="btn btn-primary btn-lg" href="#" role="button">
@@ -20,12 +18,9 @@ export default () => (
     {/*Example row of columns*/}
     <div className="row">
       <div className="col-md-4">
-        <h2>Heading</h2>
+        <h2>Frontend</h2>
         <p>
-          Donec id elit non mi porta gravida at eget metus. Fusce dapibus,
-          tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum
-          massa justo sit amet risus. Etiam porta sem malesuada magna mollis
-          euismod. Donec sed odio dui.{" "}
+          The fontend is built using React and Redux(for middlewares and reducers). React-Router is used for navigation, Redux-Thunk is used for processing asychronous requests, and Bootstrap 4 is used for page styling. 
         </p>
         <p>
           <a className="btn btn-secondary" href="#" role="button">
@@ -34,12 +29,9 @@ export default () => (
         </p>
       </div>
       <div className="col-md-4">
-        <h2>Heading</h2>
+        <h2>Backend</h2>
         <p>
-          Donec id elit non mi porta gravida at eget metus. Fusce dapibus,
-          tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum
-          massa justo sit amet risus. Etiam porta sem malesuada magna mollis
-          euismod. Donec sed odio dui.{" "}
+          The backend is built with Express.js and Node.js. Passport.js is used as an authentication middleware in the server. JSON Web Tokens (JWT) is used for signing in users and making authenticated requests.
         </p>
         <p>
           <a className="btn btn-secondary" href="#" role="button">
@@ -48,12 +40,9 @@ export default () => (
         </p>
       </div>
       <div className="col-md-4">
-        <h2>Heading</h2>
+        <h2>Database</h2>
         <p>
-          Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas
-          eget quam. Vestibulum id ligula porta felis euismod semper. Fusce
-          dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut
-          fermentum massa justo sit amet risus.
+        MongoDB is used as the back-end database, which includes different data models/schemas (i.e., User, Post and Comment). Mongoose is used to access the MongoDB database for CRUD actions (create, read, update and delete)
         </p>
         <p>
           <a className="btn btn-secondary" href="#" role="button">

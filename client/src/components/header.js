@@ -98,6 +98,8 @@ class Header extends Component {
                 <a
                   className="nav-link"
                   href="https://github.com/kofosu2289/React-Redux-Blog.git"
+                  target = "_blank"
+                  rel = "noopener noreferrer"
                 >
                   GitHub
                 </a>
